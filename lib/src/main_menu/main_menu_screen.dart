@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 
 import '../audio/audio_controller.dart';
 import '../audio/sounds.dart';
-import '../games_services/games_services.dart';
 import '../settings/settings.dart';
 import '../style/palette.dart';
 import '../style/responsive_screen.dart';
@@ -20,7 +19,6 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    final gamesServicesController = context.watch<GamesServicesController?>();
     final settingsController = context.watch<SettingsController>();
     final audioController = context.watch<AudioController>();
 
@@ -36,7 +34,7 @@ class MainMenuScreen extends StatelessWidget {
         mainAreaProminence: 0.45,
         squarishMainArea: Center(
           child: Transform.rotate(
-            angle: -0.1,
+            angle: 0,
             child: const Text(
               'Toguz Korgool Game!',
               textAlign: TextAlign.center,
@@ -48,40 +46,18 @@ class MainMenuScreen extends StatelessWidget {
             ),
           ),
         ),
+
         rectangularMenuArea: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             ElevatedButton(
               onPressed: () {
                 audioController.playSfx(SfxType.buttonTap);
-                GoRouter.of(context).go('/play');
+                GoRouter.of(context).go('/board');
               },
               child: const Text('Play'),
             ),
-            _gap,
-            if (gamesServicesController != null) ...[
-              _hideUntilReady(
-                ready: gamesServicesController.signedIn,
-                child: ElevatedButton(
-                  onPressed: () => gamesServicesController.showAchievements(),
-                  child: const Text('Achievements'),
-                ),
-              ),
-              _gap,
-              _hideUntilReady(
-                ready: gamesServicesController.signedIn,
-                child: ElevatedButton(
-                  onPressed: () => gamesServicesController.showLeaderboard(),
-                  child: const Text('Leaderboard'),
-                ),
-              ),
-              _gap,
-            ],
-            ElevatedButton(
-              onPressed: () => GoRouter.of(context).go('/settings'),
-              child: const Text('Settings'),
-            ),
-            _gap,
+            
             Padding(
               padding: const EdgeInsets.only(top: 32),
               child: ValueListenableBuilder<bool>(
@@ -95,7 +71,7 @@ class MainMenuScreen extends StatelessWidget {
               ),
             ),
             _gap,
-            const Text('Music by Mr Smith'),
+            const Text('Music by Mirbek Atabekov'),
             _gap,
           ],
         ),

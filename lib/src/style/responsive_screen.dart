@@ -14,7 +14,7 @@ class ResponsiveScreen extends StatelessWidget {
 
   /// The second-largest area after [squarishMainArea]. It can be narrow
   /// or wide.
-  final Widget rectangularMenuArea;
+  final Widget  rectangularMenuArea;
 
   /// An area reserved for some static text close to the top of the screen.
   final Widget topMessageArea;
@@ -72,23 +72,15 @@ class ResponsiveScreen extends StatelessWidget {
         //   );
         // } else {
           // "Landscape" / "tablet" mode.
-          final isLarge = size.width > 900;
+          // final isLarge = size.width > 900;
 
           return Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                flex: isLarge ? 7 : 5,
-                child: SafeArea(
-                  right: false,
-                  maintainBottomViewPadding: true,
-                  minimum: padding,
-                  child: squarishMainArea,
-                ),
-              ),
-              Expanded(
                 flex: 3,
-                child: Column(
+                child: 
+                Column(
                   children: [
                     SafeArea(
                       bottom: false,
@@ -98,6 +90,11 @@ class ResponsiveScreen extends StatelessWidget {
                         padding: padding,
                         child: topMessageArea,
                       ),
+                    ),
+                    SafeArea(
+                      top: false,
+                      minimum: padding,
+                      child: squarishMainArea,
                     ),
                     Expanded(
                       child: SafeArea(

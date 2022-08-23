@@ -22,9 +22,7 @@ import '../style/confetti.dart';
 import '../style/palette.dart';
 
 class PlaySessionScreen extends StatefulWidget {
-  final GameLevel level;
-
-  const PlaySessionScreen(this.level, {super.key});
+  const PlaySessionScreen({super.key});
 
   @override
   State<PlaySessionScreen> createState() => _PlaySessionScreenState();
@@ -49,7 +47,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LevelState(
-            goal: widget.level.difficulty,
             onWin: _playerWon,
           ),
         ),
@@ -76,8 +73,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Text('Drag the slider to ${widget.level.difficulty}%'
-                        ' or above!'),
+                    Text('Drag the slider to or above!'),
                     Consumer<LevelState>(
                       builder: (context, levelState, child) => Slider(
                         label: 'Level Progress',
@@ -135,16 +131,16 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   }
 
   Future<void> _playerWon() async {
-    _log.info('Level ${widget.level.number} won');
+    _log.info('Player won');
 
-    final score = Score(
-      widget.level.number,
-      widget.level.difficulty,
-      DateTime.now().difference(_startOfPlay),
-    );
+    // final score = Score(
+    //   widget.level.number,
+    //   widget.level.difficulty,
+    //   DateTime.now().difference(_startOfPlay),
+    // );
 
-    final playerProgress = context.read<PlayerProgress>();
-    playerProgress.setLevelReached(widget.level.number);
+    // final playerProgress = context.read<PlayerProgress>();
+    // playerProgress.setLevelReached(widget.level.number);
 
     // Let the player see the game just after winning for a bit.
     await Future<void>.delayed(_preCelebrationDuration);
@@ -157,24 +153,10 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     final audioController = context.read<AudioController>();
     audioController.playSfx(SfxType.congrats);
 
-    final gamesServicesController = context.read<GamesServicesController?>();
-    if (gamesServicesController != null) {
-      // Award achievement.
-      if (widget.level.awardsAchievement) {
-        await gamesServicesController.awardAchievement(
-          android: widget.level.achievementIdAndroid!,
-          iOS: widget.level.achievementIdIOS!,
-        );
-      }
-
-      // Send score to leaderboard.
-      await gamesServicesController.submitLeaderboardScore(score);
-    }
-
     /// Give the player some time to see the celebration animation.
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    GoRouter.of(context).go('/play/won', extra: {'score': score});
+    GoRouter.of(context).go('/play/won', extra: {'score': 100});
   }
 }
