@@ -30,52 +30,58 @@ class MainMenuScreen extends StatelessWidget {
     
     return Scaffold(
       backgroundColor: palette.backgroundMain,
-      body: ResponsiveScreen(
-        mainAreaProminence: 0.45,
-        squarishMainArea: Center(
-          child: Transform.rotate(
-            angle: 0,
-            child: const Text(
-              'Toguz Korgool Game!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Permanent Marker',
-                fontSize: 55,
-                height: 1,
+      body: new Container(
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage('assets/images/main-background.png'),
+            fit: BoxFit.fill
+          )
+        ),
+        child: ResponsiveScreen(
+          mainAreaProminence: 0.45,
+          squarishMainArea: Center(
+            child:
+                Text(
+                  'Toguz Korgool Game!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white),
+                )
+          ),
+
+          rectangularMenuArea: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  audioController.playSfx(SfxType.buttonTap);
+                  GoRouter.of(context).go('/board');
+                },
+                child: const Text('START GAME'),
+                style: TextButton.styleFrom(
+                  primary: palette.trueWhite,
+                  minimumSize: Size(150, 40),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  backgroundColor: palette.trueWhite.withOpacity(0.3),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
+                  side: BorderSide(color: palette.trueWhite)
+                ),
               ),
-            ),
+              
+              ValueListenableBuilder<bool>(
+                  valueListenable: settingsController.muted,
+                  builder: (context, muted, child) {
+                    return IconButton(
+                      onPressed: () => settingsController.toggleMuted(),
+                      icon: Icon(muted ? Icons.volume_off : Icons.volume_up),
+                    );
+                  },
+                ),
+              const Text('Music by Mirbek Atabekov'),
+            ],
           ),
         ),
-
-        rectangularMenuArea: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                audioController.playSfx(SfxType.buttonTap);
-                GoRouter.of(context).go('/board');
-              },
-              child: const Text('Play'),
-            ),
-            
-            Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: ValueListenableBuilder<bool>(
-                valueListenable: settingsController.muted,
-                builder: (context, muted, child) {
-                  return IconButton(
-                    onPressed: () => settingsController.toggleMuted(),
-                    icon: Icon(muted ? Icons.volume_off : Icons.volume_up),
-                  );
-                },
-              ),
-            ),
-            _gap,
-            const Text('Music by Mirbek Atabekov'),
-            _gap,
-          ],
-        ),
-      ),
+      )
     );
   }
 

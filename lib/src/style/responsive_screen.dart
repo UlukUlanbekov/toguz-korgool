@@ -38,7 +38,48 @@ class ResponsiveScreen extends StatelessWidget {
         // This widget wants to fill the whole screen.
         final size = constraints.biggest;
         final padding = EdgeInsets.all(size.shortestSide / 30);
-
+        final gameText = 
+                Text(
+                  'Toguz Korgool',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Permanent Marker',
+                    color: Colors.white,
+                    fontSize: 48.0
+                  ),
+                );
+        
+        return Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Image.asset('assets/images/main_screen_ornament.png')
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: padding,
+                        child: gameText
+                      )
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: padding,
+                        child: rectangularMenuArea,
+                      ),
+                    )   
+                  ],
+                )
+              ),
+              Expanded(
+                flex: 1,
+                child: Image.asset('assets/images/main_screen_ornament.png')
+              ),
+            ]
+        );
         // if (size.height >= size.width) {
         //   // "Portrait" / "mobile" mode.
         //   return Column(
@@ -73,48 +114,47 @@ class ResponsiveScreen extends StatelessWidget {
         // } else {
           // "Landscape" / "tablet" mode.
           // final isLarge = size.width > 900;
-
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 3,
-                child: 
-                Column(
-                  children: [
-                    SafeArea(
-                      bottom: false,
-                      left: false,
-                      maintainBottomViewPadding: true,
-                      child: Padding(
-                        padding: padding,
-                        child: topMessageArea,
-                      ),
-                    ),
-                    SafeArea(
-                      top: false,
-                      minimum: padding,
-                      child: squarishMainArea,
-                    ),
-                    Expanded(
-                      child: SafeArea(
-                        top: false,
-                        left: false,
-                        maintainBottomViewPadding: true,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: padding,
-                            child: rectangularMenuArea,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          );
+    
+          // return Row(
+          //   crossAxisAlignment: CrossAxisAlignment.stretch,
+          //   children: [
+          //     Expanded(
+          //       child: 
+          //       Column(
+          //         children: [
+          //           SafeArea(
+          //             top: true,
+          //             left: false,
+          //             maintainBottomViewPadding: true,
+          //             child: Padding(
+          //               padding: padding,
+          //               child: topMessageArea,
+          //             ),
+          //           ),
+          //           SafeArea(
+          //             top: false,
+          //             minimum: padding,
+          //             child: squarishMainArea,
+          //           ),
+          //           Expanded(
+          //             child: SafeArea(
+          //               top: false,
+          //               left: false,
+          //               maintainBottomViewPadding: true,
+          //               child: Align(
+          //                 alignment: Alignment.bottomCenter,
+          //                 child: Padding(
+          //                   padding: padding,
+          //                   child: rectangularMenuArea,
+          //                 ),
+          //               ),
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // );
         // }
       },
     );
