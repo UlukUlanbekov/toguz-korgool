@@ -3,8 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:game_template/src/hole/hole.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
@@ -20,6 +22,7 @@ import '../level_selection/levels.dart';
 import '../player_progress/player_progress.dart';
 import '../style/confetti.dart';
 import '../style/palette.dart';
+import '../hole/hole.dart';
 
 class PlaySessionScreen extends StatefulWidget {
   const PlaySessionScreen({super.key});
@@ -30,6 +33,14 @@ class PlaySessionScreen extends StatefulWidget {
 
 class _PlaySessionScreenState extends State<PlaySessionScreen> {
   static final _log = Logger('PlaySessionScreen');
+  
+  List<int> player1balls = [9,9,9,9,9,9,9,9,9];
+  List<int> player2balls = [9,9,9,9,9,9,9,9,9];
+
+  List<int> playerScores = [0,0];
+  int playerTurn = 1;
+  int turnIndex = 1;
+
 
   static const _celebrationDuration = Duration(milliseconds: 2000);
 
@@ -55,60 +66,60 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
         ignoring: _duringCelebration,
         child: Scaffold(
           backgroundColor: palette.backgroundPlaySession,
-          body: Stack(
-            children: [
-              Center(
-                // This is the entirety of the "game".
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: InkResponse(
-                        onTap: () => GoRouter.of(context).push('/settings'),
-                        child: Image.asset(
-                          'assets/images/settings.png',
-                          semanticLabel: 'Settings',
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Text('Drag the slider to or above!'),
-                    Consumer<LevelState>(
-                      builder: (context, levelState, child) => Slider(
-                        label: 'Level Progress',
-                        autofocus: true,
-                        value: levelState.progress / 100,
-                        onChanged: (value) =>
-                            levelState.setProgress((value * 100).round()),
-                        onChangeEnd: (value) => levelState.evaluate(),
-                      ),
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () => GoRouter.of(context).pop(),
-                          child: const Text('Back'),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox.expand(
-                child: Visibility(
-                  visible: _duringCelebration,
-                  child: IgnorePointer(
-                    child: Confetti(
-                      isStopped: !_duringCelebration,
-                    ),
+          body: 
+          new Container (
+            decoration: new BoxDecoration(
+              image: new DecorationImage(
+                image: new AssetImage('assets/images/main-background.png'),
+                fit: BoxFit.fill
+              )
+            ),
+            child: Column(
+              children: [
+                Flexible(
+                  child:GridView.builder(
+                    itemCount: 9,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
+                    itemBuilder: (BuildContext, int index) {
+                      return GestureDetector(
+                        onTap: (){
+                          _tapped(1, index);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey)
+                          ),
+                          child: Center(
+                            child: Text(player1balls[index].toString()),
+                          ),
+                        )
+                      );
+                    },              
                   ),
                 ),
-              ),
-            ],
+                Flexible(
+                  child:GridView.builder(
+                    itemCount: 9,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
+                    itemBuilder: (BuildContext, int index) {
+                      return GestureDetector(
+                        onTap: (){
+                          _tapped(2, index);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey)
+                          ),
+                          child: Center(
+                            child: Text(player2balls[index].toString()),
+                          ),
+                        )
+                      );
+                    },              
+                  ),
+                )
+              ]
+            )
           ),
         ),
       ),
@@ -127,6 +138,23 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     if (!adsRemoved) {
       final adsController = context.read<AdsController?>();
       adsController?.preloadAd();
+    }
+  }
+
+  void _tapped(int player, int index){
+    setState(() {
+      if (player == 1)
+        player1balls[index] = 2;
+      if (player == 2)
+        player2balls[index] = 2;
+    });
+
+    turnIndex = index;
+  }
+
+  void _turnTapped() {
+    if (playerTurn == 1) {
+
     }
   }
 
