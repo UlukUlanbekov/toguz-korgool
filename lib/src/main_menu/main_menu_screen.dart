@@ -77,7 +77,7 @@ class MainMenuScreen extends StatelessWidget {
                     );
                   },
                 ),
-              const Text('Music by Mirbek Atabekov'),
+              const Text('Developed by Turbine Kreuzberg',style: TextStyle(color: Colors.white)),
             ],
           ),
         ),
