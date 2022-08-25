@@ -13,6 +13,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:game_template/src/info/info.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -145,6 +146,15 @@ class MyApp extends StatelessWidget {
                       key: const Key('play session'),
                     ),
                     color: context.watch<Palette>().backgroundPlaySession,
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'info',
+                pageBuilder: (context, state) {
+                  return buildMyTransition(
+                    child: InfoPage(),
+                    color: context.watch<Palette>().infoBackground,
                   );
                 },
               ),

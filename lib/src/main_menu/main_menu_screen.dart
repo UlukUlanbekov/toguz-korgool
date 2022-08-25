@@ -68,15 +68,32 @@ class MainMenuScreen extends StatelessWidget {
                 ),
               ),
               
-              ValueListenableBuilder<bool>(
-                  valueListenable: settingsController.muted,
-                  builder: (context, muted, child) {
-                    return IconButton(
-                      onPressed: () => settingsController.toggleMuted(),
-                      icon: Icon(muted ? Icons.volume_off : Icons.volume_up),
-                    );
-                  },
-                ),
+              _gap,
+              _gap,
+              _gap,
+
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ValueListenableBuilder<bool>(
+                    valueListenable: settingsController.muted,
+                    builder: (context, muted, child) {
+                      return IconButton(
+                        onPressed: () => settingsController.toggleMuted(),
+                        icon: Icon(muted ? Icons.volume_off : Icons.volume_up),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      audioController.playSfx(SfxType.buttonTap);
+                      GoRouter.of(context).go('/info');
+                    },
+                    icon: Icon(Icons.info)
+                  ),
+                ],
+              ),
+
               const Text('Developed by Turbine Kreuzberg',style: TextStyle(color: Colors.white)),
             ],
           ),
