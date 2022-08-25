@@ -75,7 +75,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
       player2TileImages.add(player2Image);
     }
 
-    var turnButton = (turnIndex == -1) ? 'assets/images/turn-button.png' : 'assets/images/turn-button.png';
+    var turnButton = (turnIndex == -1) ? 'assets/images/turn-button.png' : 'assets/images/turn-button-selected.png';
 
     return MultiProvider(
       providers: [
@@ -99,21 +99,34 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
             ),
             child: Column(
               children: [
-                ElevatedButton(
-                onPressed: () {
-                  _playerWon();
-                },
-                child: const Text('Finish'),
-                style: TextButton.styleFrom(
-                  primary: palette.trueWhite,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  backgroundColor: palette.trueWhite.withOpacity(0.3),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                  ),
-                  side: BorderSide(color: palette.trueWhite)
+                Flexible(
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: 100,
+                        decoration: new BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          children:[
+                            Image(
+                              image: new AssetImage('assets/images/avatar1.png'),
+                              height: 30,
+                              fit: BoxFit.fitHeight
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(8.0,0,0,0),
+                              child: Text('Player 2'),
+                            )
+                          ]
+                        )
+                      )
+                    )
+                  )
                 ),
-              ),
                 Flexible(
                   child:GridView.builder(
                     itemCount: 9,
@@ -129,7 +142,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                             border: Border.all(color: Colors.grey),
                             image: new DecorationImage(
                               image: new AssetImage(player2TileImages[index]),
-                              fit: BoxFit.contain
+                              fit: BoxFit.fitHeight
                             )
                           ),
                           child: Center(
@@ -206,6 +219,52 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                       );
                     },              
                   ),
+                ),
+                Flexible(
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            width: 100,
+                            decoration: new BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              children:[
+                                Image(
+                                  image: new AssetImage('assets/images/avatar2.png'),
+                                  height: 30,
+                                  fit: BoxFit.fitHeight
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0,0,8,0),
+                                  child: Text('Player 1'),
+                                )
+                              ]
+                            )
+                          )
+                        )
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          _playerWon();
+                        },
+                        child: const Text('Finish'),
+                        style: TextButton.styleFrom(
+                          primary: palette.trueWhite,
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          backgroundColor: palette.trueWhite.withOpacity(0.3),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                          ),
+                          side: BorderSide(color: palette.trueWhite)
+                        ),
+                      )
+                  ])
                 )
               ]
             )
