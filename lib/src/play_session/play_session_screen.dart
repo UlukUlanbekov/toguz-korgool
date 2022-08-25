@@ -3,10 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:game_template/src/hole/hole.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
@@ -22,7 +20,6 @@ import '../level_selection/levels.dart';
 import '../player_progress/player_progress.dart';
 import '../style/confetti.dart';
 import '../style/palette.dart';
-import '../hole/hole.dart';
 
 class PlaySessionScreen extends StatefulWidget {
   const PlaySessionScreen({super.key});
@@ -37,9 +34,13 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   List<int> player1balls = [9,9,9,9,9,9,9,9,9];
   List<int> player2balls = [9,9,9,9,9,9,9,9,9];
 
-  List<int> playerScores = [0,0];
+  List<String> player1TileImages = [];
+  List<String> player2TileImages = [];
+
+  int player1Scores = 0;
+  int player2Scores = 0;
   int playerTurn = 1;
-  int turnIndex = 1;
+  int turnIndex = -1;
 
 
   static const _celebrationDuration = Duration(milliseconds: 2000);
@@ -53,6 +54,28 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
+
+    player1TileImages = [];
+    for(var i = 0; i < 9; i++)
+    {
+      var player1Image = 'assets/images/player1-tile.png';
+      if (playerTurn == 1 && turnIndex == i) {
+        player1Image = 'assets/images/player1-tile-selected.png';
+      }
+      player1TileImages.add(player1Image);
+    }
+
+    player2TileImages = [];
+    for(var i = 0; i < 9; i++)
+    {
+      var player2Image = 'assets/images/player2-tile.png';
+      if (playerTurn == 2 && turnIndex == i) {
+        player2Image = 'assets/images/player2-tile-selected.png';
+      }
+      player2TileImages.add(player2Image);
+    }
+
+    var turnButton = (turnIndex == -1) ? 'assets/images/turn-button.png' : 'assets/images/turn-button.png';
 
     return MultiProvider(
       providers: [
@@ -80,27 +103,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   child:GridView.builder(
                     itemCount: 9,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
-                    itemBuilder: (BuildContext, int index) {
-                      return GestureDetector(
-                        onTap: (){
-                          _tapped(1, index);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey)
-                          ),
-                          child: Center(
-                            child: Text(player1balls[index].toString()),
-                          ),
-                        )
-                      );
-                    },              
-                  ),
-                ),
-                Flexible(
-                  child:GridView.builder(
-                    itemCount: 9,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
+                    physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext, int index) {
                       return GestureDetector(
                         onTap: (){
@@ -108,10 +111,81 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey)
+                            border: Border.all(color: Colors.grey),
+                            image: new DecorationImage(
+                              image: new AssetImage(player2TileImages[index]),
+                              fit: BoxFit.contain
+                            )
                           ),
                           child: Center(
-                            child: Text(player2balls[index].toString()),
+                            child: Text(player2balls[index].toString(), style: TextStyle(color: Colors.white)),
+                          ),
+                        )
+                      );
+                    },              
+                  ),
+                ),
+                Flexible(
+                  flex: 2,
+                  child: Row(children: [
+                    Expanded(
+                      child: Container (
+                        decoration: new BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          image: new DecorationImage(
+                            image: new AssetImage('assets/images/player2-score-tile.png'),
+                            fit: BoxFit.contain
+                          )
+                        ),
+                        child: Center(
+                              child: Text(player2Scores.toString(), style: TextStyle(color: Colors.white)),
+                            )
+                      )
+                    ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          _turnTapped();
+                        },
+                        child: Image.asset(turnButton)
+                      )
+                    ),
+                    Expanded(
+                      child: Container (
+                        decoration: new BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          image: new DecorationImage(
+                            image: new AssetImage('assets/images/player1-score-tile.png'),
+                            fit: BoxFit.fitWidth
+                          )
+                        ),
+                        child: Center(
+                              child: Text(player1Scores.toString(), style: TextStyle(color: Colors.red)),
+                            )
+                      )
+                    ),
+                  ]),
+                ),
+                Flexible(
+                  child:GridView.builder(
+                    itemCount: 9,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext, int index) {
+                      return GestureDetector(
+                        onTap: (){
+                          _tapped(1, index);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            image: new DecorationImage(
+                              image: new AssetImage(player1TileImages[index]),
+                              fit: BoxFit.contain
+                            )
+                          ),
+                          child: Center(
+                            child: Text(player1balls[index].toString(), style: TextStyle(color: Colors.red)),
                           ),
                         )
                       );
@@ -142,19 +216,81 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   }
 
   void _tapped(int player, int index){
-    setState(() {
-      if (player == 1)
-        player1balls[index] = 2;
-      if (player == 2)
-        player2balls[index] = 2;
-    });
+    if (player != playerTurn){
+      return;
+    }
 
     turnIndex = index;
+    setState(() {});
   }
 
   void _turnTapped() {
-    if (playerTurn == 1) {
+    var remainder = (playerTurn == 1) ? player1balls[turnIndex] : player2balls[turnIndex];
+    if (remainder == 0)
+      return;
 
+    if (playerTurn == 1) {
+      player1balls[turnIndex] = 0;
+    } else {
+      player2balls[turnIndex] = 0;
+    }
+    
+    var i = turnIndex;
+    var isPlayer1Holes = (playerTurn == 1);
+
+    do{
+      if (isPlayer1Holes) {
+        i++;
+      } else {
+        i--;
+      }
+
+      if(i == 9) {
+        i = 8;
+        isPlayer1Holes = false;
+      }else if(i == -1) {
+        i = 0;
+        isPlayer1Holes = true;
+      }
+
+      if (isPlayer1Holes) {
+        player1balls[i]++;
+      } else {
+        player2balls[i]++;
+      }
+      
+      remainder--;
+    } while(remainder != 0);
+    
+    if(isPlayer1Holes) {
+      calculateScore(1, i);
+    } else {
+      calculateScore(2, i);
+    }
+
+    playerTurn = (playerTurn == 1) ? 2 : 1;
+    turnIndex = -1;
+    setState((){});
+  }
+
+  void calculateScore(int player, int index) {
+    if (playerTurn == player) {
+      return;
+    }
+
+    var score = (player == 1) ? player1balls[index] : player2balls[index]; 
+    if (score % 2 != 0){
+      return;
+    }
+
+    if (playerTurn == 1){
+      player1Scores += score;
+      player2balls[index] = 0;
+    }
+
+    if (playerTurn == 2){
+      player2Scores += score;
+      player1balls[index] = 0;
     }
   }
 
