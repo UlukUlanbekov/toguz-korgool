@@ -157,6 +157,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    GoRouter.of(context).go('/play/won', extra: {'score': 100});
+    GoRouter.of(context).go('/won', extra: {'player1Score': 30, 'player2Score': 90});
   }
 }
