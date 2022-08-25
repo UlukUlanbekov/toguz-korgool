@@ -35,7 +35,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   List<int> player1balls = [9,9,9,9,9,9,9,9,9];
   List<int> player2balls = [9,9,9,9,9,9,9,9,9];
 
-  List<int> playerScores = [0,0];
+  List<int> playerScores = [10,20];
   int playerTurn = 1;
   int turnIndex = 1;
 

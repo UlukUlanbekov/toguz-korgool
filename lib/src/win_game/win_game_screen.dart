@@ -31,17 +31,27 @@ class WinGameScreen extends StatelessWidget {
 
     String winner = "Player 1 won";
     int maxScore = player1Score;
+    int loserScore = player2Score;
     if (player1Score < player2Score) {
       winner = "Player 2 won";
       maxScore = player2Score;
+      loserScore = player1Score;
     }
     else if (player1Score == player2Score)
     {
         winner = "Stalemate";
     }
+
     return Scaffold(
       backgroundColor: palette.backgroundPlaySession,
-      body: Column(
+      body: new Container(
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage('assets/images/main-background.png'),
+            fit: BoxFit.fill
+          )
+        ),
+        child:Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           if (adsControllerAvailable && !adsRemoved) ...[
@@ -62,7 +72,15 @@ class WinGameScreen extends StatelessWidget {
           gap,
           Center(
             child: Text(
-              'Score: ${maxScore}\n',
+              'winner score: ${maxScore}\n',
+              style:
+                  const TextStyle(fontFamily: 'Permanent Marker', fontSize: 20),
+            ),
+          ),
+          gap,
+          Center(
+            child: Text(
+              'Loser score: ${loserScore}\n',
               style:
                   const TextStyle(fontFamily: 'Permanent Marker', fontSize: 20),
             ),
@@ -89,6 +107,7 @@ class WinGameScreen extends StatelessWidget {
           ),
           ),
         ],
+      ),
       ),
     );
   }
