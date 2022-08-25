@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -74,6 +74,18 @@ class WinGameScreen extends StatelessWidget {
               GoRouter.of(context).pop();
             },
             child: const Text('Play again'),
+
+                style: TextButton.styleFrom(
+                  primary: palette.trueWhite,
+                  minimumSize: Size(150, 40),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  backgroundColor: palette.trueWhite.withOpacity(0.3),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
+                  side: BorderSide(color: palette.trueWhite)
+                ),
+            
           ),
           ),
         ],

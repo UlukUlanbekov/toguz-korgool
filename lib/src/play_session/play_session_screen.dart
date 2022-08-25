@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:game_template/src/hole/hole.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
@@ -22,7 +21,6 @@ import '../level_selection/levels.dart';
 import '../player_progress/player_progress.dart';
 import '../style/confetti.dart';
 import '../style/palette.dart';
-import '../hole/hole.dart';
 
 class PlaySessionScreen extends StatefulWidget {
   const PlaySessionScreen({super.key});
@@ -76,6 +74,21 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
             ),
             child: Column(
               children: [
+                ElevatedButton(
+                onPressed: () {
+                  _playerWon();
+                },
+                child: const Text('Finish'),
+                style: TextButton.styleFrom(
+                  primary: palette.trueWhite,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  backgroundColor: palette.trueWhite.withOpacity(0.3),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
+                  side: BorderSide(color: palette.trueWhite)
+                ),
+              ),
                 Flexible(
                   child:GridView.builder(
                     itemCount: 9,
@@ -185,6 +198,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    GoRouter.of(context).go('/won', extra: {'player1Score': 30, 'player2Score': 90});
+    GoRouter.of(context).go('/won', extra: {'player1Score': playerScores[0], 'player2Score': playerScores[1]});
   }
 }
