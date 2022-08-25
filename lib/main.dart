@@ -7,6 +7,8 @@
 // import 'package:firebase_core/firebase_core.dart';
 // import 'firebase_options.dart';
 
+import 'dart:ffi';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -150,12 +152,12 @@ class MyApp extends StatelessWidget {
                 path: 'won',
                 pageBuilder: (context, state) {
                   final map = state.extra! as Map<String, dynamic>;
-                  final score = map['score'] as Score;
+                  final score1 = map['player1Score'] as int;
+                  final score2 = map['player2Score'] as int;
 
                   return buildMyTransition(
-                    child: WinGameScreen(
-                      score: score,
-                      key: const Key('win game'),
+                    child: WinGameScreen(score1, score2,
+                      //key: const Key('win game'),
                     ),
                     color: context.watch<Palette>().backgroundPlaySession,
                   );

@@ -99,6 +99,21 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
             ),
             child: Column(
               children: [
+                ElevatedButton(
+                onPressed: () {
+                  _playerWon();
+                },
+                child: const Text('Finish'),
+                style: TextButton.styleFrom(
+                  primary: palette.trueWhite,
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  backgroundColor: palette.trueWhite.withOpacity(0.3),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
+                  side: BorderSide(color: palette.trueWhite)
+                ),
+              ),
                 Flexible(
                   child:GridView.builder(
                     itemCount: 9,
@@ -321,6 +336,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
-    GoRouter.of(context).go('/play/won', extra: {'score': 100});
+    GoRouter.of(context).go('/won', extra: {'player1Score': player1Scores, 'player2Score': player2Scores});
   }
 }
