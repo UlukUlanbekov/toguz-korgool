@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 import '../ads/ads_controller.dart';
 import '../audio/audio_controller.dart';
@@ -55,6 +56,15 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
 
+    // random avatars
+    var rng = Random();
+    var player1Avatar = rng.nextInt(12);
+    var player2Avatar = rng.nextInt(12);
+
+    do {
+      player2Avatar = rng.nextInt(12);
+    }while(player1Avatar == player2Avatar);
+
     player1TileImages = [];
     for(var i = 0; i < 9; i++)
     {
@@ -99,7 +109,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
             ),
             child: Column(
               children: [
-                Flexible(
+                Expanded(
                   child: Padding(
                     padding: EdgeInsets.all(8),
                     child: Align(
@@ -113,7 +123,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                         child: Row(
                           children:[
                             Image(
-                              image: new AssetImage('assets/images/avatar1.png'),
+                              image: new AssetImage('assets/images/avatar'+player1Avatar.toString()+'.png'),
                               height: 30,
                               fit: BoxFit.fitHeight
                             ),
@@ -127,7 +137,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     )
                   )
                 ),
-                Flexible(
+                Expanded(
                   child:GridView.builder(
                     itemCount: 9,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
@@ -137,23 +147,25 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                         onTap: (){
                           _tapped(2, index);
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            image: new DecorationImage(
-                              image: new AssetImage(player2TileImages[index]),
-                              fit: BoxFit.fitHeight
-                            )
-                          ),
-                          child: Center(
-                            child: Text(player2balls[index].toString(), style: TextStyle(color: Colors.white)),
-                          ),
+                        child: Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              image: new DecorationImage(
+                                image: new AssetImage(player2TileImages[index]),
+                                fit: BoxFit.scaleDown
+                              )
+                            ),
+                            child: Center(
+                              child: Text(player2balls[index].toString(), style: TextStyle(color: Colors.white)),
+                            ),
+                          )
                         )
                       );
                     },              
                   ),
                 ),
-                Flexible(
+                Expanded(
                   flex: 2,
                   child: Row(children: [
                     Expanded(
@@ -194,7 +206,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     ),
                   ]),
                 ),
-                Flexible(
+                Expanded(
                   child:GridView.builder(
                     itemCount: 9,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
@@ -220,8 +232,9 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     },              
                   ),
                 ),
-                Flexible(
+                Expanded(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                         padding: EdgeInsets.all(8),
@@ -236,7 +249,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                             child: Row(
                               children:[
                                 Image(
-                                  image: new AssetImage('assets/images/avatar2.png'),
+                                  image: new AssetImage('assets/images/avatar'+player2Avatar.toString()+'.png'),
                                   height: 30,
                                   fit: BoxFit.fitHeight
                                 ),
@@ -392,7 +405,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
     audioController.playSfx(SfxType.congrats);
 
     /// Give the player some time to see the celebration animation.
-    await Future<void>.delayed(_celebrationDuration);
+    // await Future<void>.delayed(_celebrationDuration);
     if (!mounted) return;
 
     GoRouter.of(context).go('/won', extra: {'player1Score': player1Scores, 'player2Score': player2Scores});
