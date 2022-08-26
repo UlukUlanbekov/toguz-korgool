@@ -206,7 +206,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                           )
                         ),
                         child: Center(
-                              child: Text(player1Scores.toString(), style: TextStyle(color: Colors.red)),
+                              child: Text(player1Scores.toString(), style: TextStyle(color: Colors.black)),
                             )
                       )
                     ),
@@ -232,7 +232,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                             )
                           ),
                           child: Center(
-                            child: Text(player1balls[index].toString(), style: TextStyle(color: Colors.red)),
+                            child: Text(player1balls[index].toString(), style: TextStyle(color: Colors.black)),
                           ),
                         )
                       );
