@@ -135,7 +135,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   flex: 2,
                   child:GridView.builder(
                     itemCount: 9,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9, mainAxisExtent: 80),
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext, int index) {
                       return GestureDetector(
@@ -220,7 +220,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   flex: 2,
                   child:GridView.builder(
                     itemCount: 9,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9, mainAxisExtent: 80),
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext, int index) {
                       return GestureDetector(
