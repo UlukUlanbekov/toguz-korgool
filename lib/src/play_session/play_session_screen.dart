@@ -157,7 +157,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                                 padding:
                                   EdgeInsets.fromLTRB(0,0,0,5),
                                 child: 
-                                  Text(player2balls[index].toString(), style: TextStyle(color: Colors.white)),
+                                  Text(player2balls[index].toString(), style: TextStyle(color: Colors.white, fontSize: 10)),
                               )
                           )
                         )
@@ -182,7 +182,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                               Padding(
                                 padding:
                                   EdgeInsets.fromLTRB(0,0,30,0),
-                                child: Text(player2Scores.toString(), style: TextStyle(color: Colors.white)),
+                                child: Text(player2Scores.toString(), style: TextStyle(color: Colors.white, fontSize: 20)),
                               )
                           )
                       )
@@ -209,7 +209,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                               Padding(
                                 padding:
                                   EdgeInsets.fromLTRB(30,0,0,0),
-                                child: Text(player1Scores.toString(), style: TextStyle(color: Colors.black)),
+                                child: Text(player1Scores.toString(), style: TextStyle(color: Colors.black, fontSize: 20)),
                               )
                           )
                       )
@@ -241,7 +241,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                                 padding:
                                   EdgeInsets.fromLTRB(0,5,0,0),
                                 child: 
-                                  Text(player1balls[index].toString(), style: TextStyle(color: Colors.black)),
+                                  Text(player1balls[index].toString(), style: TextStyle(color: Colors.black, fontSize: 10)),
                               )
                           )
                         )
