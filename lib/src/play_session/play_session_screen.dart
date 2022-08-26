@@ -54,17 +54,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
 
   late DateTime _startOfPlay;
 
-  void main() {
-    // random avatars
-    var rng = Random();
-    player1Avatar = rng.nextInt(12);
-    player2Avatar = rng.nextInt(12);
-
-    do {
-      player2Avatar = rng.nextInt(12);
-    }while(player1Avatar == player2Avatar);
-  }
-
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
@@ -157,7 +146,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                           decoration: BoxDecoration(
                             image: new DecorationImage(
                               image: new AssetImage(player2TileImages[index]),
-                              fit: BoxFit.scaleDown
+                              fit: BoxFit.fitHeight
                             )
                           ),
 
@@ -329,6 +318,15 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
       final adsController = context.read<AdsController?>();
       adsController?.preloadAd();
     }
+
+    // random avatars
+    var rng = Random();
+    player1Avatar = rng.nextInt(12);
+    player2Avatar = rng.nextInt(12);
+
+    do {
+      player2Avatar = rng.nextInt(12);
+    }while(player1Avatar == player2Avatar);
   }
 
   void _tapped(int player, int index){

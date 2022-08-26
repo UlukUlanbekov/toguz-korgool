@@ -80,7 +80,7 @@ class InfoPage extends StatelessWidget {
               onPressed: () {
                 GoRouter.of(context).pop();
               },
-              child: const Text('back'),
+              child: const Text('BACK'),
               style: TextButton.styleFrom(
                 primary: palette.trueWhite,
                 minimumSize: Size(150, 40),
