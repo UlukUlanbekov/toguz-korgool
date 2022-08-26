@@ -168,14 +168,9 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                                 padding:
                                   EdgeInsets.fromLTRB(0,0,0,5),
                                 child: 
-                                  Text(player1balls[index].toString(), style: TextStyle(color: Colors.white)),
+                                  Text(player2balls[index].toString(), style: TextStyle(color: Colors.white)),
                               )
                           )
-
-
-                          // child: Center(
-                          //   child: Text(player2balls[index].toString(), style: TextStyle(color: Colors.blue)),
-                          // ),
                         )
                       );
                     },              
@@ -192,9 +187,15 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                             fit: BoxFit.contain
                           )
                         ),
-                        child: Center(
-                              child: Text(player2Scores.toString(), style: TextStyle(color: Colors.white)),
-                            )
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: 
+                              Padding(
+                                padding:
+                                  EdgeInsets.fromLTRB(0,0,30,0),
+                                child: Text(player2Scores.toString(), style: TextStyle(color: Colors.white)),
+                              )
+                          )
                       )
                     ),
                     Expanded(
@@ -213,9 +214,15 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                             fit: BoxFit.fitWidth
                           )
                         ),
-                        child: Center(
-                              child: Text(player1Scores.toString(), style: TextStyle(color: Colors.black)),
-                            )
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: 
+                              Padding(
+                                padding:
+                                  EdgeInsets.fromLTRB(30,0,0,0),
+                                child: Text(player1Scores.toString(), style: TextStyle(color: Colors.black)),
+                              )
+                          )
                       )
                     ),
                   ]),
