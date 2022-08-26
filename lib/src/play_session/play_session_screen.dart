@@ -160,9 +160,22 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                               fit: BoxFit.scaleDown
                             )
                           ),
-                          child: Center(
-                            child: Text(player2balls[index].toString(), style: TextStyle(color: Colors.white)),
-                          ),
+
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: 
+                              Padding(
+                                padding:
+                                  EdgeInsets.fromLTRB(0,0,0,5),
+                                child: 
+                                  Text(player1balls[index].toString(), style: TextStyle(color: Colors.white)),
+                              )
+                          )
+
+
+                          // child: Center(
+                          //   child: Text(player2balls[index].toString(), style: TextStyle(color: Colors.blue)),
+                          // ),
                         )
                       );
                     },              
