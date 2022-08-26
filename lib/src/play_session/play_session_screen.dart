@@ -42,6 +42,8 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   int player2Scores = 0;
   int playerTurn = 1;
   int turnIndex = -1;
+  int player1Avatar = 1;
+  int player2Avatar = 2;
 
 
   static const _celebrationDuration = Duration(milliseconds: 2000);
@@ -52,18 +54,20 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
 
   late DateTime _startOfPlay;
 
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.watch<Palette>();
-
+  void main() {
     // random avatars
     var rng = Random();
-    var player1Avatar = rng.nextInt(12);
-    var player2Avatar = rng.nextInt(12);
+    player1Avatar = rng.nextInt(12);
+    player2Avatar = rng.nextInt(12);
 
     do {
       player2Avatar = rng.nextInt(12);
     }while(player1Avatar == player2Avatar);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.watch<Palette>();
 
     player1TileImages = [];
     for(var i = 0; i < 9; i++)
@@ -110,6 +114,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
             child: Column(
               children: [
                 Expanded(
+                  flex: 1,
                   child: Padding(
                     padding: EdgeInsets.all(8),
                     child: Align(
@@ -138,6 +143,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   )
                 ),
                 Expanded(
+                  flex: 2,
                   child:GridView.builder(
                     itemCount: 9,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
@@ -166,7 +172,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   ),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 4,
                   child: Row(children: [
                     Expanded(
                       child: Container (
@@ -207,6 +213,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   ]),
                 ),
                 Expanded(
+                  flex: 2,
                   child:GridView.builder(
                     itemCount: 9,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
@@ -233,6 +240,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   ),
                 ),
                 Expanded(
+                  flex: 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
