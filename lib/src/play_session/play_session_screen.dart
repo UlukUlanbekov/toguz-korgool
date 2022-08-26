@@ -113,7 +113,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
             ),
             child: Column(
               children: [
-                Expanded(
+                Flexible(
                   flex: 1,
                   child: Padding(
                     padding: EdgeInsets.all(8),
@@ -142,7 +142,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     )
                   )
                 ),
-                Expanded(
+                Flexible(
                   flex: 2,
                   child:GridView.builder(
                     itemCount: 9,
@@ -153,31 +153,27 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                         onTap: (){
                           _tapped(2, index);
                         },
-                        child: Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              image: new DecorationImage(
-                                image: new AssetImage(player2TileImages[index]),
-                                fit: BoxFit.scaleDown
-                              )
-                            ),
-                            child: Center(
-                              child: Text(player2balls[index].toString(), style: TextStyle(color: Colors.white)),
-                            ),
-                          )
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: new DecorationImage(
+                              image: new AssetImage(player2TileImages[index]),
+                              fit: BoxFit.scaleDown
+                            )
+                          ),
+                          child: Center(
+                            child: Text(player2balls[index].toString(), style: TextStyle(color: Colors.white)),
+                          ),
                         )
                       );
                     },              
                   ),
                 ),
-                Expanded(
+                Flexible(
                   flex: 4,
                   child: Row(children: [
                     Expanded(
                       child: Container (
                         decoration: new BoxDecoration(
-                          border: Border.all(color: Colors.grey),
                           image: new DecorationImage(
                             image: new AssetImage('assets/images/player2-score-tile.png'),
                             fit: BoxFit.contain
@@ -199,7 +195,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     Expanded(
                       child: Container (
                         decoration: new BoxDecoration(
-                          border: Border.all(color: Colors.grey),
                           image: new DecorationImage(
                             image: new AssetImage('assets/images/player1-score-tile.png'),
                             fit: BoxFit.fitWidth
@@ -212,7 +207,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                     ),
                   ]),
                 ),
-                Expanded(
+                Flexible(
                   flex: 2,
                   child:GridView.builder(
                     itemCount: 9,
@@ -225,14 +220,12 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
                             image: new DecorationImage(
                               image: new AssetImage(player1TileImages[index]),
                               fit: BoxFit.contain
                             )
                           ),
-                          child:
-                          Align(
+                          child: Align(
                             alignment: Alignment.topCenter,
                             child: 
                               Padding(
@@ -240,14 +233,14 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                                   EdgeInsets.fromLTRB(0,5,0,0),
                                 child: 
                                   Text(player1balls[index].toString(), style: TextStyle(color: Colors.black)),
-                                )
+                              )
                           )
                         )
                       );
                     },              
                   ),
                 ),
-                Expanded(
+                Flexible(
                   flex: 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
